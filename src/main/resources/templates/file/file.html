@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>文件管理</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- bootstrap-table -->
+    <link type="text/css" rel="stylesheet" th:href="@{/bootstrap-table/css/bootstrap-table.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+
+    <!-- bootstrap-input-file -->
+    <link type="text/css" rel="stylesheet" th:href="@{/fileinput/css/fileinput.min.css}" />
+    <script type="text/javascript" th:src="@{/fileinput/js/fileinput.min.js}"></script>
+    <script type="text/javascript" th:src="@{/fileinput/js/fileinput_locale_zh.js}"></script>
+</head>
+<body>
+<div class="content-wrapper" style="margin-left: 0px">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            文件管理
+            <small>文件管理</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0)" onclick="initContent('file')"><i class="fa fa-dashboard"></i> 文件管理</a></li>
+        </ol>
+    </section>
+
+    <!-- 主体内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">文件</h3>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="mailbox.html"><i class="fa fa-music"></i> 音乐
+                                <span class="label label-primary pull-right" th:text="${picTotal}"></span></a></li>
+                            <li><a href="#"><i class="fa fa-video-camera"></i> 视频
+                                <span class="label label-success pull-right" th:text="${picTotal}"></span></a></li>
+                            <li><a href="#"><i class="fa fa-file-picture-o"></i> 图片
+                                <span class="label label-info pull-right" th:text="${picTotal}"></span></a></li>
+                            <li><a href="#"><i class="fa fa-file"></i> 文档
+                                <span class="label label-danger pull-right" th:text="${picTotal}"></span></a>
+                            <li><a href="#"><i class="fa fa-dot-circle-o"></i> 其他
+                                <span class="label label-warning pull-right" th:text="${picTotal}"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">文件列表</h3>
+                    </div>
+                    <!--<ol class="breadcrumb">-->
+                    <!--<li><strong><span style="color: #27a0d7">用户列表</span></strong></li>-->
+                    <!--</ol>-->
+                    <table id="tb"></table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="closeModal()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传文件</h4>
+            </div>
+            <div class="modal-body">
+                <input id="myfile" name="file" type="file" multiple class="file-loading" required>
+                <!--<input id="file" name="myfile" type="file" data-show-caption="true">-->
+                <p class="help-block">单个文件大小不超过10M，总文件大小不能超过50M。</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 工具栏 -->
+<div id="toolbar">
+    <!--<div class="btn-group">-->
+        <button type="button" class="btn btn-success" onclick="showUploadModal()">
+            <i class="fa fa-plus">上传</i>
+        </button>
+        <button type="button" class="btn btn-danger">
+            <i class="fa fa-remove">删除</i>
+        </button>
+    <!--</div>-->
+</div>
+
+    <script type="text/javascript">
+
+            $("#myfile").fileinput({
+                uploadUrl:'/file/upload',
+                showPreview: true,
+                uploadAsync: true,      // 默认异步上传
+                showClose: false,       // 显示关闭按钮
+                showUpload: true,      // 显示上传按钮
+                showCaption: true,      // 显示选择文件筐区域
+                showRemove:true,        // 显示移除按钮
+                dropZoneEnabled: true,  // 显示拖拽区域
+//                allowedFileExtensions: ["jpg", "png", "gif"],    // 允许文件拓展名
+//                allowedPreviewTypes: ['image'],                 // 允许预览文件类型
+//                allowedFileTypes: ['image'],                    // 允许文件上传类型
+                language: 'zh',         // 设置语言
+                maxFileSize: 50000,      // 允许上传文件的大小
+                maxFileCount: 10,         // 允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+//            initialPreview: ["<img src='*' class='file-preview-image' alt='肖像图片' title='肖像图片'>"],
+            }).on("fileerror", function (event, data, previewId, index) {
+                console.log(data.id);
+                console.log(data.index);
+                console.log(data.file);
+                console.log(data.reader);
+                console.log(data.files);
+                var obj = data.response;
+                alert(JSON.stringify(data.success));
+            }).on('fileuploaded', function(event, data, msg) {
+                // 不作任何处理
+            });
+
+            function closeModal() {
+                // 关闭上传窗口
+                $("#uploadModal").modal('hide');
+                // 刷新列表
+                $("#tb").bootstrapTable('refresh');
+                // 刷新并开启myFile
+                $("#myfile").fileinput('refresh').fileinput('enable');
+            }
+
+            <!-- showUploadModal -->
+            function showUploadModal() {
+            $("#uploadModal").modal('show');
+        }
+
+        <!-- 表格初始化 -->
+            function initTable() {
+                $("#tb").bootstrapTable({
+                    url: 'file/all',
+                    method: 'get',
+                    columns: [{
+                        field: 'state',
+                        checkbox: true,
+                        align: 'center',
+                    },{
+                        field: 'id',
+                        title: 'ID',
+                        align: 'center',
+                    },{
+                        field: 'number',
+                        title: '编号',
+                        formatter:function (value, row, index) {
+                            return index + 1;
+                        },
+                        valign: 'middle',
+                        align: 'center',
+                    },{
+                        field: 'oldname',
+                        title: '文件名',
+                        align: 'center',
+                    },{
+                        field: 'description',
+                        title: '描述',
+                        align: 'center',
+                    },{
+                        field: 'suffix',
+                        title: '后缀',
+                        align: 'center',
+                    },{
+                        field: 'formatSize',
+                        title: '文件大小',
+                        align: 'center',
+                    },{
+                        field: 'uploadtime',
+                        title: '上传时间',
+                        align: 'center',
+                    },{
+                        field: 'opr',
+                        title: '操作',
+                        align: 'center',
+                        formatter: oprFunction,
+                    }],
+                    showColumns: true,
+                    striped: true,
+                    pagination: true,
+                    sidePagination:'server',
+                    pageNumber:1,
+                    pageSize:20,
+                    pageList:[1,2,5,50,100],
+                    search:true,
+                    showRefresh:true,
+                    showToggle:true,
+                    showPaginationSwitch:true,
+                    buttonsAlign:'right',
+                    paginationPreText:'上一页',
+                    paginationNextText:'下一页',
+                    clickToSelect:true,
+                    toolbar:'#toolbar',
+                });
+            }
+
+        // 页面加载
+        $(function () {
+            initTable();
+            $("#tb").bootstrapTable('hideColumn', 'id');
+        })
+            
+        function oprFunction(value, row, index) {
+            return '<button type="button" class="btn btn-info btn-xs" onclick="download(' + row.id + ')"><i class="fa fa-download"></i>下载</button>' +
+                '<button type="button" class="btn btn-warning btn-xs" onclick="viewFile(' + row.id + ')"><i class="fa fa-folder-open"></i>查看</button>';
+        }
+
+        // 下载文件(以表单提交方式)
+        function download(value) {
+            var form = $('<form></form>');
+            // 添加属性
+            form.attr('style', 'display:none');
+            form.attr('action', 'file/download/' + value);
+            form.attr('method', 'get');
+            // 添加到body
+            $("body").append(form);
+            // 提交表单
+            form.submit();
+        }
+        // 查看
+        function viewFile() {
+            
+        }
+    </script>
+
+</body>
+</html>
