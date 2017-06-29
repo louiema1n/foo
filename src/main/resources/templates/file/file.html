@@ -72,7 +72,7 @@
     <!-- /.content -->
 </div>
 
-<!-- 模态框（Modal） -->
+<!-- 上传模态框（Modal） -->
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -87,6 +87,27 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
+</div>
+
+<!-- 预览文件模态框（Modal） -->
+<div id="viewModal" class="file-zoom-dialog modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-left: 17px;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="kv-zoom-actions pull-right">
+                    <button type="button" class="btn btn-default btn-header-toggle btn-toggleheader" title="缩放" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="glyphicon glyphicon-resize-vertical"></i></button>
+                    <button type="button" class="btn btn-default btn-fullscreen" title="全屏" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="glyphicon glyphicon-fullscreen"></i></button>
+                    <button type="button" class="btn btn-default btn-borderless" title="无边界模式" data-toggle="button" aria-pressed="false" autocomplete="off"><i class="glyphicon glyphicon-resize-full"></i></button>
+                    <button type="button" class="btn btn-default btn-close" title="关闭当前预览" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+                <h3 class="modal-title">详细预览 <small id="titlesmall"></small></h3>
+            </div>
+            <div class="modal-body">
+                <div class="floating-buttons"></div>
+                <div class="kv-zoom-body file-zoom-content krajee-default" id="contentsource"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 工具栏 -->
@@ -189,6 +210,10 @@
                         title: '上传时间',
                         align: 'center',
                     },{
+                        field: 'type',
+                        title: '文件类型',
+                        align: 'center',
+                    },{
                         field: 'opr',
                         title: '操作',
                         align: 'center',
@@ -217,11 +242,14 @@
         $(function () {
             initTable();
             $("#tb").bootstrapTable('hideColumn', 'id');
+            $("#tb").bootstrapTable('hideColumn', 'type');
         })
             
         function oprFunction(value, row, index) {
             return '<button type="button" class="btn btn-info btn-xs" onclick="download(' + row.id + ')"><i class="fa fa-download"></i>下载</button>' +
-                '<button type="button" class="btn btn-warning btn-xs" onclick="viewFile(' + row.id + ')"><i class="fa fa-folder-open"></i>查看</button>';
+                '<button type="button" class="btn btn-warning btn-xs" ' +
+                'onclick="viewFile(\'' + row.oldname + '\',\''+ row.formatSize + '\',\'' + row.path + '\',\'' + row.type + '\')">' +
+                '<i class="fa fa-folder-open"></i>查看</button>';
         }
 
         // 下载文件(以表单提交方式)
@@ -236,9 +264,38 @@
             // 提交表单
             form.submit();
         }
-        // 查看
-        function viewFile() {
-            
+        // 预览
+        function viewFile(oldname, formatSize, path, type) {
+            $("#viewModal").modal('show');
+            // 图片
+            if (type.indexOf('image/') >= 0) {
+                $("#titlesmall").html('<span class="kv-zoom-title">' + oldname + '<samp>(' + formatSize + ')</samp></span>');
+                $("#contentsource").html('<img src="' + path + '" alt="' + oldname + '" style="max-width: 100%; max-height: 100%;">');
+            }
+            // 文本
+            else if (type.indexOf('text/') >= 0) {
+                $("#titlesmall").html('<span class="kv-zoom-title">' + oldname + '<samp>(' + formatSize + ')</samp></span>');
+                $("#contentsource").html('<textarea class="kv-preview-data file-preview-text file-zoom-detail" title="' + path + '" readonly="" style="width: 100%; height: 100%; min-height: 480px;">123</textarea>');
+            }
+            // 音频
+            else if (type.indexOf('audio/') >= 0) {
+                $("#titlesmall").html('<span class="kv-zoom-title">' + oldname + '<samp>(' + formatSize + ')</samp></span>');
+                $("#contentsource").html('<audio class="kv-preview-data file-zoom-detail" controls="" style="width: 100%; height: 30px;">' +
+                    '<source src="' + path + '" type="audio/mp3">' +
+                    '<div class="file-preview-other"><span class="file-other-icon"><i class="glyphicon glyphicon-file"></i></span></div></audio>');
+            }
+            // 视频
+            else if (type.indexOf('video/') >= 0) {
+                $("#titlesmall").html('<span class="kv-zoom-title">' + oldname + '<samp>(' + formatSize + ')</samp></span>');
+                $("#contentsource").html('<video class="kv-preview-data file-preview-video file-zoom-detail" controls="" style="width: auto; height: 100%; max-width: 100%;">' +
+                    '<source src="' + path + '" type="video/mp4"><div class="file-preview-other">' +
+                    '<span class="file-other-icon"><i class="glyphicon glyphicon-file"></i></span></div></video>');
+            }
+            // 不支持
+            else {
+                $("#titlesmall").html('<span class="kv-zoom-title">' + oldname + '<samp>(' + formatSize + ')</samp></span>');
+                $("#contentsource").html('<h3>暂不支持预览该文件类型</h3><h4><a href="' + path + '">点击打开</a></h4>');
+            }
         }
     </script>
 
