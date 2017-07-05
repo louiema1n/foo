@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
-<head>
+<hea>
     <title>文件管理</title>
     <head th:replace="common/header :: head"></head>
 
@@ -13,6 +13,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/fileinput/css/fileinput.min.css}" />
     <script type="text/javascript" th:src="@{/fileinput/js/fileinput.min.js}"></script>
     <script type="text/javascript" th:src="@{/fileinput/js/fileinput_locale_zh.js}"></script>
+
 </head>
 <body>
 <div class="content-wrapper" style="margin-left: 0px">
@@ -116,14 +117,31 @@
         <button type="button" class="btn btn-success" onclick="showUploadModal()">
             <i class="fa fa-plus">上传</i>
         </button>
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-danger" onclick="del()">
             <i class="fa fa-remove">删除</i>
         </button>
     <!--</div>-->
 </div>
 
     <script type="text/javascript">
+        
+            // 删除文件
+            function del() {
+                var rows = $("#tb").bootstrapTable('getSelections');
+                for (var i = 0; i < rows.length;i++) {
+                    $.ajax({
+                        url:'file/del/' + rows[i].id,
+                        type: 'DELETE',
+                        success:function (data) {
+                            alert(data);
+                            // 刷新列表
+                            $("#tb").bootstrapTable('refresh');
+                        }
+                    });
+                }
+            }
 
+            // 文件上传初始化
             $("#myfile").fileinput({
                 uploadUrl:'/file/upload',
                 showPreview: true,
@@ -176,11 +194,6 @@
                     columns: [{
                         field: 'state',
                         checkbox: true,
-                        align: 'center',
-                    },{
-                        field: 'id',
-                        title: 'ID',
-                        align: 'center',
                     },{
                         field: 'number',
                         title: '编号',
@@ -188,37 +201,28 @@
                             return index + 1;
                         },
                         valign: 'middle',
-                        align: 'center',
                     },{
                         field: 'oldname',
                         title: '文件名',
-                        align: 'center',
                     },{
-                        field: 'description',
-                        title: '描述',
-                        align: 'center',
+                        field: 'path',
+                        title: 'Url',
                     },{
                         field: 'suffix',
                         title: '后缀',
-                        align: 'center',
                     },{
                         field: 'formatSize',
                         title: '文件大小',
-                        align: 'center',
                     },{
                         field: 'uploadtime',
                         title: '上传时间',
-                        align: 'center',
-                    },{
-                        field: 'type',
-                        title: '文件类型',
-                        align: 'center',
                     },{
                         field: 'opr',
                         title: '操作',
                         align: 'center',
                         formatter: oprFunction,
                     }],
+                    classes:'table table-no-bordered',
                     showColumns: true,
                     striped: true,
                     pagination: true,
@@ -241,8 +245,8 @@
         // 页面加载
         $(function () {
             initTable();
-            $("#tb").bootstrapTable('hideColumn', 'id');
-            $("#tb").bootstrapTable('hideColumn', 'type');
+            // 隐藏字段
+//            $("#tb").bootstrapTable('hideColumn', 'type');
         })
             
         function oprFunction(value, row, index) {
@@ -297,6 +301,7 @@
                 $("#contentsource").html('<h3>暂不支持预览该文件类型</h3><h4><a href="' + path + '">点击打开</a></h4>');
             }
         }
+
     </script>
 
 </body>

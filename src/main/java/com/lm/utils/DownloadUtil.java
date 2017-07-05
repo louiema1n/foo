@@ -26,13 +26,14 @@ public class DownloadUtil {
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
+                OutputStream ops = null;
                 try {
                     // 获取file的文件输入流
                     fis = new FileInputStream(file);
                     // 获取buffered输入流
                     bis = new BufferedInputStream(fis);
                     // 获取输出流
-                    OutputStream ops = response.getOutputStream();
+                    ops = response.getOutputStream();
                     // 读取buffered输入流,每次读取buffer个字节
                     int i = bis.read(buffer);
                     while (i != -1) {
@@ -60,6 +61,13 @@ public class DownloadUtil {
                     if (fis != null) {
                         try {
                             fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (ops != null) {
+                        try {
+                            ops.close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

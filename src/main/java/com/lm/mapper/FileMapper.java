@@ -1,6 +1,7 @@
 package com.lm.mapper;
 
 import com.lm.domain.File;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -30,4 +31,7 @@ public interface FileMapper {
 
     @Select("select * from file where id = #{id}")
     File selectFileById(@Param("id") Integer id);
+
+    @Delete("delete from file where id = #{id}")
+    Integer delFileById(@Param("id") Integer id);
 }

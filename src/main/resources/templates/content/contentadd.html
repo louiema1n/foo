@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>新增内容</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- CKEditor -->
+    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+
+    <!-- zTree -->
+    <link type="text/css" rel="stylesheet" th:href="@{/zTree/css/zTreeStyle/metro.css}"/>
+    <script type="text/javascript" th:src="@{/zTree/js/jquery.ztree.all-3.5.min.js}"></script>
+    <!-- zTree配置 -->
+    <script language="JavaScript">
+        var zTreeObj;
+        var catezTreeObj;
+        var setting = {
+            check: {
+                enable: true,
+                chkStyle: "radio",
+                radioType:'all',
+            },
+            view: {
+                dblClickExpand: false,
+            },
+            async:{
+                enable:true,
+                type:'get',
+                url:'catetree/all'
+            },
+            data: {
+                simpleData: {
+                    enable:true,
+                    idKey: "id",
+                    pIdKey: "pid",
+                    rootPId: ""
+                }
+            },
+            callback: {
+                onClick: onClick
+            },
+        };
+        var zNodes = [];
+        // 单击折叠展开父节点
+        function onClick(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            // 点击内容选中
+            zTree.checkNode(treeNode, !treeNode.checked, true);
+            if (treeNode.isParent) {
+                zTree.expandNode(treeNode);
+                return false;
+            } else {
+//                demoIframe.attr("src",treeNode.file + ".html");
+                return false;
+            }
+        }
+        $(document).ready(function () {
+            zTreeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+            catezTreeObj = $.fn.zTree.init($("#catetree"), setting, zNodes);
+        })
+    </script>
+
+</head>
+<body>
+<div class="content-wrapper" style="margin-left: 0px">
+
+    <!-- 主体内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header" with-border>
+                        <h3 class="box-title">新增内容</h3>
+                    </div>
+                    <div class="box-body">
+                        <form class="form-horizontal" role="form" id="contentForm" action="content/save" method="post">
+                            <fieldset>
+                                <input type="hidden" id="id" name="id">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="title" required>标题</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" name="title" id="title" type="text" placeholder="输入标题" autofocus required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="url" required>英文简称</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" name="url" id="url" type="text" placeholder="输入英文简称，作为URL" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="description" >描述</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" name="description" id="description" style="height: 100px" type="text" placeholder="输入描述" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" id="cid" name="cid">
+                                    <label class="col-sm-2 control-label" for="tree">所属类别</label>
+                                    <div class="col-sm-9">
+                                        <ul id="tree" class="ztree" style="overflow:auto;"></ul>
+                                        <button type="button" class="btn btn-primary" onclick="cateManager()"><i class="fa fa-save">管理类别</i></button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="tree">内容</label>
+                                    <div class="col-sm-9">
+                                        <textarea id="TextArea1" name="content" cols="20" rows="2" class="ckeditor"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <button type="submit" class="btn btn-success" id="submit" style="display: none" ><i class="fa fa-save">保存</i></button>
+                            <div class="box-footer">
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-success" onclick="saveContent()"><i class="fa fa-save">保存</i></button>
+                                    <button type="button" class="btn btn-danger" onclick="window.location='/content'"><i class="fa fa-close">关闭</i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- 添加星标 -->
+<script>
+    $('label[required]').after('<span class="text-muted" style="color:red">*</span>');
+</script>
+
+<!-- 类别管理模态框（Modal） -->
+<div class="modal fade" id="cateManagerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="closeContentModal()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">类别管理</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="catetree" class="ztree" style="overflow:auto;"></ul>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 弹出提示框 -->
+<div class="modal fade" id="dl" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mt"></h4>
+            </div>
+            <div class="modal-body" >
+                <p id="mb"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.example-modal -->
+
+    <script type="text/javascript">
+
+        // 显示类别管理modal
+        function cateManager() {
+            $("#cateManagerModal").modal('show');
+        }
+
+        // 保存内容
+        function saveContent() {
+            // 获取选中的节点(未选中为false)
+            var treeObj = $.fn.zTree.getZTreeObj("tree");
+            var nodes = treeObj.getCheckedNodes(true);
+            if (typeof(nodes[0]) == 'undefined') {
+                $("#dl").modal('show');
+                $("#mt").text('错误');
+                $("#mb").text('请选择可用节点！');
+                return false;
+            }
+            if (nodes[0].path != null) {
+                $("#dl").modal('show');
+                $("#mt").text('错误');
+                $("#mb").text('该节点为最终节点，请重新选择上一级别节点！');
+                return false;
+            }
+            if (nodes[0].id == null) {
+                $("#dl").modal('show');
+                $("#mt").text('错误');
+                $("#mb").text('请选择节点！');
+                return false;
+            }
+            $("#cid").val(nodes[0].id);
+            $("#submit").click();
+        }
+
+    </script>
+
+</body>
+</html>

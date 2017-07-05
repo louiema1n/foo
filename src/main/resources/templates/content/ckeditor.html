@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CKEditor</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- CKEditor -->
+    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
+
+</head>
+<body>
+<h1>123</h1>
+<textarea id="TextArea1" cols="20" rows="2" class="ckeditor"></textarea>
+<button type="button" class="btn btn-success" onclick="saveCk()"><i class="fa fa-save">保存</i></button>
+<script type="text/javascript">
+    function saveCk() {
+        // 获取CKeditor的内容
+        alert(CKEDITOR.instances.TextArea1.getData());
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>预览</title>
+    <head th:replace="common/header :: head"></head>
+
+</head>
+<body>
+<div id="view" th:utext="${content.content}">
+</div>
+</body>
+</html>
