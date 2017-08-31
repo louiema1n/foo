@@ -1,5 +1,7 @@
 package com.lm.domain;
 
+import java.util.List;
+
 /**
  * 类别树实体
  * Created by Louie on 2017-07-03.
@@ -12,6 +14,7 @@ public class Catetree {
     private byte open;
     private byte checked;
     private String path;
+    private List<Catetree> catetrees;
 
     public Integer getId() {
         return id;
@@ -67,5 +70,13 @@ public class Catetree {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public List<Catetree> getCatetrees() {
+        return catetrees;
+    }
+
+    public void setCatetrees(List<Catetree> catetrees) {
+        this.catetrees = catetrees;
     }
 }

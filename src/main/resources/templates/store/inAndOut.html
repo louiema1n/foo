@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>物料管理</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- bootstrap-table -->
+    <link type="text/css" rel="stylesheet" th:href="@{/bootstrap-table/css/bootstrap-table.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+
+    <!-- myCss -->
+    <link type="text/css" rel="stylesheet" th:href="@{/myCustom/css/myCss.css}">
+    <!-- myjs-->
+    <script type="text/javascript" th:src="@{/myCustom/js/myjs.js}"></script>
+
+</head>
+<body>
+<div class="content-wrapper" style="margin-left: 0px">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            物料管理
+            <small>物料管理</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0)" onclick="initContent('store')"><i class="fa fa-dashboard"></i> 物料管理</a></li>
+        </ol>
+    </section>
+
+    <!-- 主体内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box">
+                    <div class="box-header" with-border>
+                        <h3 class="box-title">物料列表</h3>
+                    </div>
+                    <!--<ol class="breadcrumb">-->
+                    <!--<li><strong><span style="color: #27a0d7">用户列表</span></strong></li>-->
+                    <!--</ol>-->
+
+
+                    <!-- 成功提示框 -->
+                    <div class="alert alert-success fade in hidden" id="success"></div>
+
+                    <div class="box-body">
+                        <table id="tb"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box">
+                    <div class="box-header" with-border>
+                        <h3 class="box-title">补充/使用记录</h3>
+                    </div>
+                    <!--<ol class="breadcrumb">-->
+                    <!--<li><strong><span style="color: #27a0d7">用户列表</span></strong></li>-->
+                    <!--</ol>-->
+
+
+                    <!-- 成功提示框 -->
+                    <div class="alert alert-success fade in hidden" ></div>
+
+                    <div class="box-body">
+                        <table id="tbInAndOut"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+<!-- 工具栏 -->
+<div id="toolbar">
+
+    <a class="btn btn-app" style="background-color: #a4d4fc" onclick="showOpr('add')">
+        <i class="fa fa-plus-circle"></i> 补充
+    </a>
+    <a class="btn btn-app" style="background-color: #ffabac" onclick="showOpr('use')">
+        <i class="fa fa-minus-circle"></i> 使用
+    </a>
+
+</div>
+
+<!-- 弹出提示框 -->
+<div class="modal fade" id="dl" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="closeDl()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mt"></h4>
+            </div>
+            <div class="modal-body" >
+                <table id="tOpr"></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="save" >保存</button>
+                <button type="button" class="btn btn-default pull-right" onclick="closeDl()"  data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.example-modal -->
+
+
+    <script type="text/javascript">
+
+        function closeDl() {
+            $("#dl").modal('hide');
+            // 刷新
+            window.location.href = '/inAndOut';
+        }
+
+
+        <!-- 表格初始化 -->
+        function initTable() {
+            $("#tb").bootstrapTable({
+                url: '/store/able',
+                method: 'get',
+                columns: [{
+                    field: 'stateId',
+                    checkbox: true,
+                },{
+                    field: 'number',
+                    title: 'ID',
+                    formatter:function (value, row, index) {
+                        return index + 1;
+                    },
+                    align: 'center',
+                },{
+                    field: 'name',
+                    title: '名称',
+                    align: 'center',
+                },{
+                    field: 'afterAddTime',
+                    title: '补充时间',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return timeStamp2String(value);
+                    }
+                },{
+                    field: 'total',
+                    title: '当前库存',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return value + row.totalUnit;
+                    }
+                },{
+                    field: 'used',
+                    title: '已使用',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return value + row.totalUnit + ' (' +(row.used / row.total * 100).toFixed(2) + '%)';
+                    }
+                },{
+                    field: 'rate1',
+                    title: '剩余库存',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return row.total - row.used + row.totalUnit + ' (' + (100 - (row.used / row.total * 100)).toFixed(2) + '%)';
+                    }
+                },{
+                    field: 'rate',
+                    title: '剩余库存比',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        var val = (100 - (row.used / row.total * 100)).toFixed(2);
+                        var color;
+                        switch (parseInt((100 - val)/10)) {
+                            case 10:
+                            case 9:
+                            case 8:
+                                color = 'progress-bar progress-bar-red';
+                                break;
+                            case 7:
+                            case 6:
+                            case 5:
+                                color = 'progress-bar progress-bar-yellow';
+                                break;
+                            case 4:
+                            case 3:
+                                color = 'progress-bar progress-bar-aqua';
+                                break;
+                            case 2:
+                            case 1:
+                            case 0:
+                                color = 'progress-bar progress-bar-green';
+                                break;
+                        };
+                        return '<div class="progress progress-s">' +
+                            '<div class="' + color + '" style="width: ' + val + '%' + '"></div>' +
+                            '</div>';
+                    }
+                },{
+                    field: 'state',
+                    title: '状态',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        switch (value) {
+                            case 0:
+                                return '<span class="badge bg-red">已停用</span>';
+                                break;
+                            case 1:
+                                return '<span class="badge bg-light-blue">已启用</span>';
+                                break;
+                            case 2:
+                                return '<span class="badge bg-green">库存安全</span>';
+                                break;
+                            case 3:
+                                return '<span class="badge bg-yellow">需及时请购</span>';
+                                break;
+                            case 4:
+                                return '<span class="badge bg-red">库存危险</span>';
+                                break;
+                        }
+                    },
+                },{
+                    field: 'opr',
+                    title: '操作',
+                    align: 'center',
+                    formatter: oprFunction,
+                }],
+                //classes:'table table-no-bordered',
+                showColumns: true,
+                striped: true,
+                pagination: true,
+                sidePagination:'server',
+                pageNumber:1,
+                pageSize:20,
+                pageList:[1,2,5,50,100],
+                search:true,
+                showRefresh:true,
+                showToggle:true,
+                showPaginationSwitch:true,
+                buttonsAlign:'right',
+                paginationPreText:'上一页',
+                paginationNextText:'下一页',
+                clickToSelect:true,
+                toolbar:'#toolbar',
+            });
+        }
+
+        // 页面加载
+        $(function () {
+            initTable();
+        });
+
+        // 操作处理
+        function oprFunction(value, row, index) {
+            return '<a href="javascript:void(0)" onclick="showOpr(\'add\')">补充</a>' +
+                '<a href="javascript:void(0)" onclick="showOpr(\'use\')">使用</a>';
+        }
+
+        // 显示使用界面
+        function showOpr(val) {
+            var data = $("#tb").bootstrapTable('getSelections');
+            var param = 'saveOpr(\'';
+            $("#dl").modal('show');
+            if (val == 'add') {
+                $("#mt").text('补充');
+            }else {
+                $("#mt").text('使用');
+            }
+            param += val + '\')';
+            $("#save").attr('onclick', param);
+
+            $("#tOpr").bootstrapTable({
+                data:data,
+                columns: [
+                {
+                    field: 'number',
+                    title: 'ID',
+                    formatter:function (value, row, index) {
+                        return index + 1;
+                    },
+                    align: 'center',
+                },{
+                    field: 'name',
+                    title: '名称',
+                    align: 'center',
+                },{
+                    field: 'total',
+                    title: '当前库存',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return value + row.totalUnit;
+                    }
+                },{
+                    field: 'used',
+                    title: '已使用',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return value + row.totalUnit + ' (' +(row.used / row.total * 100).toFixed(2) + '%)';
+                    }
+                },{
+                    field: 'rate1',
+                    title: '剩余库存',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return row.total - row.used + row.totalUnit + ' (' + (100 - (row.used / row.total * 100)).toFixed(2) + '%)';
+                    }
+                },{
+                    field: 'number',
+                    title: '数量',
+                    align: 'center',
+                    formatter:function (value, row, index) {
+                        return '<input type="text" name="' + (row.total-row.used) + '" id="' + row.id + '" style="margin: 0px;padding: 0px" />'
+                    },
+                }],
+                striped: true,
+            });
+        }
+
+        // 补充/使用物料处理
+        function saveOpr(val) {
+            var ipts = $("#tOpr input");
+            for (var i=0;i<ipts.length;i++) {
+                // 剩余库存小于使用量，提示不可提交
+                if (val == 'use' && parseInt(ipts[i].name) < parseInt(ipts[i].value)) {
+                    alert('当前剩余库存已不足，无法使用!');
+                } else {
+                    $.ajax({
+                        url:'/store/' + val + '/' + ipts[i].id + '/' + ipts[i].value,
+                        type:'post',
+                        success: function (data) {
+                            // 成功
+                            if (data == 'success') {
+                                closeDl();
+                            } else {
+                                alert('服务器错误，请联系管理员。');
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+    </script>
+
+</body>
+</html>

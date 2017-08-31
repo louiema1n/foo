@@ -1,0 +1,122 @@
+#reportmenu > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    display: block;
+    top: 8px;
+    right: 30%;
+    z-index: 100;
+}
+
+#reportmenu > ul li {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-width: 150px;
+}
+
+#reportmenu > ul li a {
+    font: 80% verdana, tahoma, ms sans serif, arial;
+    color: #000000;
+    display: block;
+    position: relative;
+    min-width: 130px;
+    min-height: 18px;
+    padding: 6px 20px;
+    border-bottom: 1px solid #9fcaeb;
+    color: #fff;
+    text-decoration: none;
+    background: #65a3d3;
+}
+
+#reportmenu > ul li > a:hover, #reportmenu > ul li:hover > a {
+    color: #fff;
+    background: #a3d4ed;
+    border-color: transparent;
+}
+
+#reportmenu > ul .has-sub > a::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    width: 0px;
+    height: 0px;
+    border: 4px solid transparent;
+    border-left: 4px solid #fff;
+}
+
+#reportmenu > ul .top-menu > a::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    width: 0px;
+    height: 0px;
+    border: 4px solid transparent;
+    border-top: 4px solid #fff;
+}
+
+#reportmenu > ul ul {
+    position: absolute;
+    left: 100%;
+    top: -9999px;
+    padding-left: 0;
+    xborder-left: 5px solid #fff;
+    opacity: 0;
+    z-index: 100;
+    -webkit-transition: opacity .3s ease-in;
+    -moz-transition: opacity .3s ease-in;
+    -o-transition: opacity .3s ease-in;
+    -ms-transition: opacity .3s ease-in;
+}
+
+#reportmenu ul ul ul {
+    border-left: 5px solid #fff;
+}
+
+#reportmenu ul.submenu {
+    left: 0;
+}
+
+#reportmenu li:hover > ul.submenu {
+    top: 0;
+    opacity: 1;
+    border-top: 4px solid white;
+    position: relative;
+}
+
+#reportmenu > ul li:hover > ul {
+    top: 0px;
+    opacity: 1;
+}
+
+#reportmenu > ul li:first-child > a {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top: 0;
+}
+
+#reportmenu > ul li:last-child > a {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: 0;
+}
+
+A {
+    text-decoration: none
+}
+
+A:hover {
+    text-decoration: underline
+}
+
+TD {
+    font: 80% verdana, tahoma, ms sans serif, arial;
+    color: #000000;
+    vertical-align: text-center;
+    text-align: left
+}
+

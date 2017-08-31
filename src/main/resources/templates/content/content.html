@@ -34,6 +34,11 @@
                     <!--<ol class="breadcrumb">-->
                     <!--<li><strong><span style="color: #27a0d7">用户列表</span></strong></li>-->
                     <!--</ol>-->
+
+
+                    <!-- 成功提示框 -->
+                    <div class="alert alert-success fade in hidden" id="success"></div>
+
                     <div class="box-body">
                         <table id="tb"></table>
                     </div>
@@ -52,6 +57,10 @@
         </button>
         <button type="button" class="btn btn-danger" onclick="del()">
             <i class="fa fa-remove">删除</i>
+        </button>
+        <button type="button" class="btn btn-primary" onclick="window.location='/view'">
+            <!-- 转至展示页面 -->
+            <i class="glyphicon glyphicon-share-alt"></i> 在展示界面中预览
         </button>
     <!--</div>-->
 </div>
@@ -78,6 +87,7 @@
 </div>
 <!-- /.example-modal -->
 
+
     <script type="text/javascript">
 
         function closeDl() {
@@ -89,12 +99,16 @@
             var rows = $("#tb").bootstrapTable('getSelections');
             for (var i = 0; i < rows.length;i++) {
                 $.ajax({
-                    url:'file/del/' + rows[i].id,
+                    url:'/content/del/' + rows[i].id + '/' + rows[i].cid,
                     type: 'DELETE',
                     success:function (data) {
-                        alert(data);
+                        $("#success").html(data);
+                        $("#success").attr('class', 'alert alert-success');
                         // 刷新列表
                         $("#tb").bootstrapTable('refresh');
+                        window.setTimeout(function(){
+                            $("#success").attr('class', 'alert alert-success hidden');
+                        },1000);
                     }
                 });
             }
@@ -137,6 +151,16 @@
                         field: 'state',
                         title: '状态',
                         valign: 'middle',
+                        formatter:function (value, row, index) {
+                            switch (value) {
+                                case 0:
+                                    return '<span class="badge bg-red">已停用</span>';
+                                    break;
+                                case 1:
+                                    return '<span class="badge bg-green">正常</span>';
+                                    break;
+                            }
+                        },
                     },{
                         field: 'opr',
                         title: '操作',
@@ -169,8 +193,12 @@
         })
             
         function oprFunction(value, row, index) {
-            return '<a href="javascript:void(0)" onclick="download(' + row.id + ')">编辑 | </a>' +
+            return '<a href="javascript:void(0)" onclick="editT(' + row.id + ')">编辑 | </a>' +
                 '<a href="view/' + row.id + '" target="_blank">预览</a>';
+        }
+
+        function editT(id) {
+            window.location.href = "/contentadd/" + id;
         }
 
     </script>

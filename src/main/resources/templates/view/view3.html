@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>详细展示</title>
+    <head th:replace="common/header :: head"></head>
+    <link rel="stylesheet" th:href="@{/mycss/nav.css}">
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+
+<div class="wrapper">
+
+    <header class="main-header">
+        <nav class="navbar navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand"><b>新系统</b>功能操作展示</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- 导航条 -->
+                        <div id="reportmenu">
+                            <ul>
+                                <li class="top-menu"><a href="#">导航</a>
+                                    <ul class="submenu" id="submenu">
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- Full Width Column -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2" >
+                    <div class="box box-solid" id="content">
+                        <div class="box-header with-border" >
+                            <!-- 标题 -->
+                            <h1 style="color: #3c8dbc" th:text="${content.title}"></h1>
+                            <!-- 创建者 -->
+                            <i class="fa fa-user" th:text="${content.createname}"></i>
+                            <!-- 创建时间 -->
+                            <i class="fa fa-calendar" th:text="${content.creattime}"></i>
+                        </div>
+                        <div class="box-body">
+                            <!-- 描述 -->
+                            <blockquote class="text-muted">
+                                <p th:text="${content.description}"></p>
+                            </blockquote>
+                            <!-- 主体内容 -->
+                            <p th:utext="${content.content}"></p>
+                        </div>
+                        <div class="box-footer" style="text-align: right">
+                            <!-- 最后修改人 -->
+                            <i class="fa fa-edit" th:text="${content.lasteditname}"></i>
+                            <!-- 最后修改时间 -->
+                            <i class="fa fa-calendar-times-o" th:text="${content.edittime}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 0.0.1
+            </div>
+            <strong>Copyright &copy; 2014-2017 <a href="#">LouieMain</a>.</strong> All rights
+            reserved.
+        </div>
+        <!-- /.container -->
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<script>
+    var str = null;
+    $(function () {
+        // 初始化导航树
+        var trees;
+        $.ajax({
+            url:'catetree/all',
+            type:'get',
+            success:function(data){
+                buildTree(data, 0, 0);
+                $("#submenu").html(str);
+                $("ul").parent().attr('class', 'has-sub');
+            }
+        });
+        // 初始化页面内容
+        view(9);
+    })
+    // 构建导航树
+    function buildTree(data, pid, t) {
+        var count = 0;
+        for (var i = 0;i < data.length;i++) {
+            if (pid == data[i].pid) {
+                if (t == 1) {
+                    str += '<ul>';
+                    count++;
+                    t = 0;
+                }
+                if (str == null) {
+                    str = '<li><a href="javascript:void(0)" onclick="view(' + data[i].id + ')">' + data[i].name + '</a>';
+                }else {
+                    str += '<li><a href="javascript:void(0)" onclick="view(' + data[i].id + ')">' + data[i].name + '</a>';
+                }
+                buildTree(data, data[i].id, 1);
+            }
+        }
+        str += '</li>';
+        if (count > 0) {
+            str += '</ul>';
+        }
+    }
+
+</script>
+
+</body>
+</html>

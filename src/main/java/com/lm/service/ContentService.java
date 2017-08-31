@@ -16,8 +16,8 @@ public class ContentService {
     @Autowired
     private ContentMapper contentMapper;
 
-    public List<Content> getAll() {
-        return this.contentMapper.selectAll();
+    public List<Content> getAll(String search) {
+        return this.contentMapper.selectAll(search);
     }
 
     public Integer add(String title, String createname, String lasteditname, String creattime, String edittime, byte state, String content, String description, String url, Integer cid) {
@@ -30,5 +30,13 @@ public class ContentService {
 
     public Content getContentByCid(Integer cid) {
         return this.contentMapper.selectByCid(cid);
+    }
+
+    public Integer upd(Integer id, String title, String lasteditname, String edittime, byte state, String content, String description, String url, Integer cid) {
+        return this.contentMapper.upd(id, title, lasteditname, edittime, state, content, description, url, cid);
+    }
+
+    public Integer del(Integer id) {
+        return this.contentMapper.delete(id);
     }
 }

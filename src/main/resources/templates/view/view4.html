@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>展示目录</title>
+    <head th:replace="common/header :: head"></head>
+    <link rel="stylesheet" th:href="@{/myCustom/css/nav.css}">
+
+    <!--自定义标题style-->
+    <style>
+        h1 {
+            cursor: pointer;
+            font-size: 26px;
+        }
+
+        h1:hover {
+            color: #3c8dbc;
+        }
+    </style>
+
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+    <header class="main-header">
+        <nav class="navbar navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand"><b>新系统</b>功能操作展示</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- 搜索框 -->
+                <div class="navbar-form navbar-right" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="navbar-search-input" name="search"
+                               placeholder="请输入搜索内容" onblur="search()">
+                        <input type="hidden" name="offset" id="offset">
+                    </div>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- 导航条 -->
+                        <div id="reportmenu">
+                            <ul>
+                                <li class="top-menu"><a href="#">导航</a>
+                                    <ul class="submenu" id="submenu">
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- Full Width Column -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <!-- 项目列表 -->
+                    <div id="project">
+
+                    </div>
+                    <!-- 分页 -->
+                    <div class="box box-solid" style="text-align: center">
+                        <ul class="pagination pagination-lg" id="pag">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 0.0.1
+            </div>
+            <strong>Copyright &copy; 2014-2017 <a href="#">LouieMain</a>.</strong> All rights
+            reserved.
+        </div>
+        <!-- /.container -->
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<script>
+    var str = null;
+    $(function () {
+        // 初始化导航树
+        var trees;
+        $.ajax({
+            url: 'catetree/all',
+            type: 'get',
+            success: function (data) {
+                buildTree(data, 0, 0);
+                $("#submenu").html(str);
+                $("ul").parent().attr('class', 'has-sub');
+            }
+        });
+        $("#offset").val(1);
+        search();
+    })
+
+    function buildTree(data, pid, t) {
+        var count = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (pid == data[i].pid) {
+                if (t == 1) {
+                    str += '<ul>';
+                    count++;
+                    t = 0;
+                }
+                if (str == null) {
+                    str = '<li><a href="javascript:void(0);" onclick="view(' + data[i].id + ')">' + data[i].name + '</a>';
+                } else {
+                    str += '<li><a href="javascript:void(0);" onclick="view(' + data[i].id + ')">' + data[i].name + '</a>';
+                }
+                buildTree(data, data[i].id, 1);
+            }
+        }
+        str += '</li>';
+        if (count > 0) {
+            str += '</ul>';
+        }
+    }
+
+    //    展示页面跳转
+    function showDetail(e) {
+        window.location.href = "/detail/" + e.id;
+    }
+
+    //    搜索处理
+    function search() {
+//        $("form").submit();
+        var pageNum = $("[name=offset]").val();
+        $.ajax({
+            url: '/content/all',
+            type: 'get',
+            data:{
+                search:$("[name=search]").val(),
+                offset:$("[name=offset]").val(),
+                limit:20,
+            },
+            success: function (data) {
+                // 遍历data
+                var total = data.total;
+                var contents = data.rows;
+                // 重置项目列表
+                var pro = "<div class='box box-solid'>" +
+                            "<div class='box-header with-border'>" +
+                            "<!-- 标题 -->" +
+                                "<h1>无相关内容！</h1>" +
+                            "</div>" +
+                            "<div class='box-body'>" +
+                            "<!-- 描述 -->" +
+                                "<blockquote class='text-muted'>" +
+                                    "<p></p>" +
+                                "</blockquote>" +
+                            "</div>" +
+                            "<div class='box-footer'>" +
+                            "<!-- 创建者 --><i class='fa fa-user'></i><span>&nbsp;&nbsp;&nbsp;</span>" +
+                            "<!-- 创建时间 --><i class='fa fa-calendar'></i>" +
+                            "</div>" +
+                         "</div>";
+                $("#project").html(pro);
+                var list = "";
+                // 记录列表
+                for (var i = 0; i < contents.length; i++) {
+//                    标题
+                    $("#project div div h1").html(contents[i].title);
+                    $("#project div div h1").attr('id', contents[i].id);
+                    $("#project div div h1").attr('onclick', 'showDetail(this)');
+                    // 描述
+                    $("#project div div blockquote p").html(contents[i].description);
+                    // 创建者
+                    $("#project div div i[class='fa fa-user']").html(" " + contents[i].createname);
+                    // 创建时间
+                    $("#project div div i[class='fa fa-calendar']").html(" " + contents[i].creattime);
+                    list += $("#project").html();
+                }
+                $("#project").html(list);
+
+                // 分页
+                // 重置分页
+                $("#pag").html('<li><a href="javascript:void(0);" onclick="page(this)">无数据</a></li>');
+                $("#pag li a").html('上页');
+                $("#pag li a").attr('name', 'pre');
+                var page = "";
+                page += $("#pag").html();
+
+                // 每页记录数
+                var pageSize = 20;
+                // 总页数
+                var pages = parseInt((total + pageSize - 1)/pageSize);
+                for (var i = 0;i < pages;i++) {
+                    $("#pag li a").html(i + 1);
+//                    $("#pag li a").attr('id', i + 1);
+                    $("#pag li a").attr('name', i + 1);
+                    page += $("#pag").html();
+                }
+                // 重置分页
+                $("#pag").html('<li><a href="javascript:void(0);" onclick="page(this)">无数据</a></li>');
+                $("#pag li a").html('下页');
+                $("#pag li a").attr('id', pages);
+                $("#pag li a").attr('name', 'suf');
+                page += $("#pag").html();
+                $("#pag").html(page);
+
+                // 当前页
+                var pageNum = $("#offset").val();
+                // 设置active
+                $("a[name="+pageNum+"]").parent().addClass('active');
+            }
+        });
+    }
+
+//    分页处理
+    function page(e) {
+        // 当前页
+        var pageNum = $("#offset").val();
+        if (e.name == 'pre') {
+            // 上一页
+            pageNum--;
+            $("#offset").val(pageNum <= 1 ? 1 : pageNum);
+        } else if (e.name == 'suf') {
+            // 下一页
+            pageNum++;
+            $("#offset").val(pageNum >= e.id ? e.id : pageNum);
+        } else {
+            $("#offset").val(e.name);
+        }
+        search();
+    }
+
+</script>
+
+</body>
+</html>

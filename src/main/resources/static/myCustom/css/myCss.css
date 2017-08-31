@@ -1,0 +1,27 @@
+#tb tbody tr td a{
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 1px 10px;
+    display: inline-block;
+}
+#tb tbody tr td a:hover{
+     background-color: #ddd;
+ }
+
+.today{
+    color: red;
+}
+#pbtitle{
+    text-align: center;
+    font-size: larger;
+    color: #3c8dbc;
+}
+#pbbody .name {
+    font-weight: bold;
+}
+#example2 {
+    text-align: center;
+}
+#example2 thead tr th {
+    text-align: center;
+}

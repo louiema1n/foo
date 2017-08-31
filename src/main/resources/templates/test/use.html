@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>使用模板</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/adminlte/plugins/select2/select2.min.css}">
+    <script th:src="@{/adminlte/plugins/select2/select2.full.min.js}"></script>
+
+
+    <style type="text/css">
+        p input{width:60px; border:0; border-bottom:1px solid #000; text-align:center;}
+        p div{display:inline}
+    </style>
+
+</head>
+<body>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>模板选择</label>
+                    <select class="form-control select2" style="width: 100%;">
+                        <option th:each="c:${contents}" th:text="${c.content}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>使用</label>
+                    <p></p><br>
+                    <button type="button" class="btn btn-success" onClick="test()">输出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--<div id="test">灰红，碎组织一堆，体积:</div>-->
+<!--<div><input autofocus/></div>-->
+<!--<div>×</div>-->
+<!--<div><input type="text" /></div>-->
+<!--<div>×</div>-->
+<!--<div><input type="text" /></div>-->
+<!--<div>，切面灰白，实性质韧。</div>-->
+
+
+<script type="text/javascript">
+
+    $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        $("select").change(function () {
+            var str = $("option:selected").text();
+            var newStr = str.replace(/\[[\u4e00-\u9fa5]+]/g, '<div><input type="text" /></div>');
+            var strs = str.match(/\[[\u4e00-\u9fa5]+]/g);
+            alert(strs[0]);
+            $("p").html(newStr);
+        });
+    })
+
+    function test(){
+        var divs = $("p div");
+        var ipts = $("p input");
+        var j = 0;
+        var str = "";
+        for(var i=0;i<divs.length;i++){
+            if(divs[i].innerText == ""){
+                for(;j<ipts.length;){
+                    str += ipts[j].value;
+                    j++;
+                    break;
+                }
+            } else{
+                str += divs[i].innerText;
+            }
+        }
+        alert(str);
+
+        //alert(document.getElementsByTagName("div")[0].innerText);
+    }
+</script>
+</body>
+
+</html>

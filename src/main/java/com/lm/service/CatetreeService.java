@@ -23,4 +23,16 @@ public class CatetreeService {
     public Integer add(Integer pid, String name, String url, byte open, byte checked, String path) {
         return this.catetreeMapper.insert(pid, name, url, open, checked, path);
     }
+
+    public Integer getCid() {
+        return this.catetreeMapper.returnId();
+    }
+
+    public Integer delById(Integer id) {
+        return this.catetreeMapper.delById(id);
+    }
+
+    public Integer upd(Integer id, Integer pid, String name, String url, byte open, byte checked, String path) {
+        return this.catetreeMapper.upd(id, pid, name, url, open, checked, path);
+    }
 }

@@ -29,10 +29,10 @@ CKEDITOR.editorConfig = function( config ) {
     //注册插件
     config.extraPlugins = 'html5video,html5audio';
     // 文件上传路径
-    config.filebrowserUploadUrl="file/ckupload";
-    config.filebrowserBrowseUrl = 'file';
+    config.filebrowserUploadUrl="/file/ckupload";
+    config.filebrowserBrowseUrl = '/file';
     // 图片预览地址
-    config.filebrowserImageBrowseUrl = 'file';
+    config.filebrowserImageBrowseUrl = '/file';
     //清空预览区域显示内容
     config.image_previewText = ' ';
 };

@@ -2,7 +2,7 @@
     background: #fff;
     padding-bottom: 40px;
     border-radius: 15px;
-    text-align: center;
+    /*text-align: center;*/
 }
 .form-horizontal .heading{
     display: block;
@@ -67,9 +67,9 @@
 .form-horizontal .main-checkbox label{
     width: 20px;
     height: 20px;
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
-    left: 0;
+    left: 10px;
     cursor: pointer;
 }
 .form-horizontal .main-checkbox label:after{

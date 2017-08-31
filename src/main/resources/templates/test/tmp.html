@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>欢迎使用XXX系统</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- bootstrap-table -->
+    <link type="text/css" rel="stylesheet" th:href="@{/bootstrap-table/css/bootstrap-table.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+
+    <style type="text/css">
+        span{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <form action="/tmp/add" method="post">
+        <!-- textarea -->
+        <div class="form-group col-md-5">
+            <label>模板设置<br>
+                <span type="button" class="badge bg-red" onclick="tag('颜色')">颜色</span>
+                <span type="button" class="badge bg-green" onclick="tag('形态')">形态</span>
+                <span type="button" class="badge bg-light-blue" onclick="tag('数量')">数量</span>
+                <span type="button" class="badge bg-yellow" onclick="tag('直径')">直径</span>
+                <span type="button" class="badge bg-yellow" onclick="tag('体积')">体积</span>
+                <span type="button" class="badge bg-blue" onclick="tag('常用')">常用</span>
+            </label>
+            <textarea id="content" name="content" class="form-control" rows="5" placeholder="请输入模板内容 ..."></textarea>
+            <button type="submit" class="btn btn-primary">保存模板</button>
+        </div>
+    </form>
+
+    <!-- 主体内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header" with-border>
+                        <h3 class="box-title">模板列表</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <table id="tb"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+
+        function tag(val) {
+            $("#content").val($("#content").val() + '[' + val + ']' );
+        }
+
+        function yss() {
+
+            $("#content").val($("#content").val() + "[颜色]");
+//            $("#content").val($("#content").val() + '<div><input type="text" /></div>');
+        }
+
+
+        <!-- 表格初始化 -->
+        function initTable() {
+            $("#tb").bootstrapTable({
+                url: '/tmp/all',
+                method: 'get',
+                columns: [{
+                    field: 'stateId',
+                    checkbox: true,
+                },{
+                    field: 'number',
+                    title: '编号',
+                    formatter:function (value, row, index) {
+                        return index + 1;
+                    },
+                    valign: 'middle',
+                },{
+                    field: 'content',
+                    title: '内容',
+//                    formatter:function (value, row, index) {
+//                        var str = value.replace(/<div><input type="text" \/><\/div>/g, '[特殊]');
+//                        return str;
+//                    },
+                }],
+                classes:'table table-no-bordered',
+                striped: true,
+            });
+        }
+
+        // 页面加载
+        $(function () {
+            initTable();
+        })
+
+    </script>
+</body>
+
+</html>

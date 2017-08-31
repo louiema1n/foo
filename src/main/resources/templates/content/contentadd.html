@@ -26,7 +26,7 @@
             async:{
                 enable:true,
                 type:'get',
-                url:'catetree/all'
+                url:'/catetree/all'
             },
             data: {
                 simpleData: {
@@ -73,25 +73,25 @@
                         <h3 class="box-title">新增内容</h3>
                     </div>
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" id="contentForm" action="content/save" method="post">
+                        <form class="form-horizontal" role="form" id="contentForm" action="/content/save" method="post">
                             <fieldset>
-                                <input type="hidden" id="id" name="id">
+                                <input type="hidden" id="id" name="id" th:value="${content.id}">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="title" required>标题</label>
+                                    <label class="col-sm-2 control-label" for="title" required >标题</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="title" id="title" type="text" placeholder="输入标题" autofocus required/>
+                                        <input class="form-control" name="title" id="title" type="text" placeholder="输入标题" autofocus required th:value="${content.title}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="url" required>英文简称</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" name="url" id="url" type="text" placeholder="输入英文简称，作为URL" required/>
+                                        <input class="form-control" name="url" id="url" type="text" placeholder="输入英文简称，作为URL" required th:value="${content.url}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="description" >描述</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control" name="description" id="description" style="height: 100px" type="text" placeholder="输入描述" ></textarea>
+                                        <textarea class="form-control" name="description" id="description" style="height: 100px" type="text" placeholder="输入描述" th:text="${content.description}"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -107,7 +107,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label" for="tree">内容</label>
                                     <div class="col-sm-9">
-                                        <textarea id="TextArea1" name="content" cols="20" rows="2" class="ckeditor"></textarea>
+                                        <textarea id="TextArea1" name="content" cols="20" rows="2" class="ckeditor" th:text="${content.content}"></textarea>
                                     </div>
                                 </div>
                             </fieldset>

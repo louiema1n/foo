@@ -1,17 +1,10 @@
-server:
-  port: 80
-
-# 图片存储地址
-web:
-  upd-path: F:/WorkStation/Java/Foo-upd/
-
 spring:
 # 表示所有的访问都经过静态资源路径；
   mvc:
     static-path-pattern: /**
 # 加入所有静态资源路径（覆盖默认配置）
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upd-path}
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upd-path},file:${web.dwd-path}
 
 #  文件上传大小限制
   http:
@@ -27,13 +20,6 @@ spring:
     encoding: utf-8
     content-type: text/html
 
-# datasource
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/home?useSSL=true
-    username: root
-    password: root
-
 # pagehelper(https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md)
   pagehelper:
     offset-as-page-num: true
@@ -41,3 +27,21 @@ spring:
     row-bounds-with-count: true
     reasonable: true
 
+# 激动启动模式
+  profiles:
+    active: dev
+# 邮件发送
+  mail:
+    host: smtp.qq.com
+    default-encoding: utf-8
+    protocol: smtp
+    username: 605580188@qq.com
+    password: pwzaxhmxtmasbdbf
+    properties:
+      mail:
+        smtp:
+          port: 465
+          ssl:
+            enable: true
+          auth: true
+        debug: true
