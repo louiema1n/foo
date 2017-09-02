@@ -226,4 +226,9 @@ public class IndexController {
     public String permission() {
         return "permission/permission";
     }
+
+    @RequestMapping("/tst")
+    public String test() {
+        return "test/test";
+    }
 }

@@ -1,33 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/bootstrap.css}">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" th:href="@{/aceadmin/components/font-awesome/css/font-awesome.css}">
 
-    <!-- text fonts -->
-    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-fonts.css}" />
-
-    <!-- ace styles -->
-    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace.css}" class="ace-main-stylesheet" id="main-ace-style" />
-    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-skins.css}" />
-    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-rtl.css}" />
-
-    <!-- ace settings handler -->
-    <script th:src="@{/aceadmin/assets/js/ace-extra.js}"></script>
-
-    <!-- jQuery -->
-    <script th:src="@{/aceadmin/components/jquery/dist/jquery.js}"></script>
-
-    <!-- Bootstrap -->
-    <script th:src="@{/aceadmin/components/bootstrap/dist/js/bootstrap.js}"></script>
-
-
+<!-- ace事件引用 -->
+<div th:fragment="acescripts">
     <!-- ace scripts -->
     <script th:src="@{/aceadmin/assets/js/src/elements.scroller.js}"></script>
     <script th:src="@{/aceadmin/assets/js/src/elements.colorpicker.js}"></script>
@@ -52,6 +27,54 @@
     <script th:src="@{/aceadmin/assets/js/src/ace.settings-skin.js}"></script>
     <script th:src="@{/aceadmin/assets/js/src/ace.widget-on-reload.js}"></script>
     <script th:src="@{/aceadmin/assets/js/src/ace.searchbox-autocomplete.js}"></script>
+</div>
 
-</head>
+<!-- 头部引用 -->
+<div th:fragment="head">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- jQuery -->
+    <script th:src="@{/aceadmin/components/jquery/dist/jquery.js}"></script>
+
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/bootstrap.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/aceadmin/components/font-awesome/css/font-awesome.css}">
+    <!-- Bootstrap -->
+    <script th:src="@{/aceadmin/components/bootstrap/dist/js/bootstrap.js}"></script>
+
+</div>
+
+<div th:fragment="bootstraptable">
+    <!-- bootstrap-table -->
+    <link type="text/css" rel="stylesheet" th:href="@{/bootstrap-table/css/bootstrap-table.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+</div>
+
+<div th:fragment="jqueryui">
+    <!-- jqueryuijs -->
+    <script th:src="@{/aceadmin/components/jquery-ui/jquery-ui.min.js}"></script>
+    <script th:src="@{/aceadmin/components/jqueryui-touch-punch/jquery.ui.touch-punch.js}"></script>
+    <!-- jqueryuicss -->
+    <link rel="stylesheet" th:href="@{/aceadmin/components/jquery-ui/jquery-ui.min.css}" />
+</div>
+
+<div th:fragment="aceadmin">
+    <!-- text fonts -->
+    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-fonts.css}" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace.css}" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-skins.css}" />
+    <link rel="stylesheet" th:href="@{/aceadmin/assets/css/ace-rtl.css}" />
+
+    <!-- ace settings handler -->
+    <script th:src="@{/aceadmin/assets/js/ace-extra.js}"></script>
+</div>
+
 </html>

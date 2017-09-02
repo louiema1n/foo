@@ -2,80 +2,91 @@
 <html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>排班管理</title>
+    <head th:replace="common/header :: head"></head>
+
+    <!-- bootstrap-table -->
+    <link type="text/css" rel="stylesheet" th:href="@{/bootstrap-table/css/bootstrap-table.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table.min.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap-table/js/bootstrap-table-zh-CN.min.js}"></script>
+
     <!-- myjs-->
     <script type="text/javascript" th:src="@{/myCustom/js/myjs.js}"></script>
+
     <!-- mycss -->
     <link type="text/css" rel="stylesheet" th:href="@{/myCustom/css/myCss.css}">
 
 </head>
-<body class="no-skin">
+<body>
+<div class="content-wrapper" style="margin-left: 0px">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            排班管理
+            <small>排班管理</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0)" onclick="initContent('store')"><i class="fa fa-dashboard"></i> 排班管理</a></li>
+        </ol>
+    </section>
 
-<div class="main-container ace-save-state" id="main-container">
-    <script type="text/javascript">
-        try {
-            ace.settings.loadState('main-container')
-        } catch (e) {
-        }
-    </script>
+    <!-- 主体内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header" with-border>
+                        <h3 class="box-title">排班表</h3>
+                    </div>
+                    <!--<ol class="breadcrumb">-->
+                    <!--<li><strong><span style="color: #27a0d7">用户列表</span></strong></li>-->
+                    <!--</ol>-->
 
-    <div class="main-content">
-        <div class="main-content-inner">
 
-            <!-- 主体内容 -->
-            <div class="page-content">
-                <!-- 头部 -->
-                <h3 class="header blue lighter smaller">
-                    <i class="ace-icon fa fa-users smaller-90"></i>
-                    排班表
-                </h3>
-            </div>
+                    <!-- 成功提示框 -->
+                    <div class="alert alert-success fade in hidden" id="success"></div>
 
-            <!-- 成功提示框 -->
-            <div class="alert alert-success fade in hidden" id="success"></div>
+                    <div class="box-body">
+                        <!-- 按钮 -->
+                        <button type="button" class="btn btn-primary" onclick="pre(this)">上一周</button>
+                        <button type="button" class="btn btn-primary" onclick="next(this)">下一周</button>
+                        <!-- 上传文件 -->
+                        <form id="fileForm" method="post" action="/excel/import" enctype="multipart/form-data">
+                            <input type="file" id="file" name="file" style="display: none" onchange="uploadSch()">
+                        </form>
+                        <i class="fa fa-download pull-right"><a href="javaScript:void(0);" onclick="downloadSch()">下载本月考勤</a></i>
+                        <i class="fa fa-upload pull-right"><a href="javaScript:void(0);" onclick="showUpload()">上传考勤表&nbsp;&nbsp;</a></i>
 
-            <div class="box-body">
-                <!-- 按钮 -->
-                <button type="button" class="btn btn-primary" onclick="pre(this)">上一周</button>
-                <button type="button" class="btn btn-primary" onclick="next(this)">下一周</button>
-                <!-- 上传文件 -->
-                <form id="fileForm" method="post" action="/excel/import" enctype="multipart/form-data">
-                    <input type="file" id="file" name="file" style="display: none" onchange="uploadSch()">
-                </form>
-                <i class="fa fa-download pull-right"><a href="javaScript:void(0);"
-                                                        onclick="downloadSch()">下载本月考勤</a></i>
-                <i class="fa fa-upload pull-right"><a href="javaScript:void(0);" onclick="showUpload()">上传考勤表&nbsp;&nbsp;</a></i>
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead >
+                            <tr>
+                                <!-- 表头 -->
+                                <th colspan="8" id="pbtitle"></th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2"></th>
+                                <th>周一</th>
+                                <th>周二</th>
+                                <th>周三</th>
+                                <th>周四</th>
+                                <th>周五</th>
+                                <th>周六</th>
+                                <th>周日</th>
+                            </tr>
+                            <tr id="date">
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <!-- 内容 -->
+                            <tbody id="pbbody">
 
-                <table id="example2" class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <!-- 表头 -->
-                        <th colspan="8" id="pbtitle"></th>
-                    </tr>
-                    <tr>
-                        <th rowspan="2"></th>
-                        <th>周一</th>
-                        <th>周二</th>
-                        <th>周三</th>
-                        <th>周四</th>
-                        <th>周五</th>
-                        <th>周六</th>
-                        <th>周日</th>
-                    </tr>
-                    <tr id="date">
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <!-- 内容 -->
-                    <tbody id="pbbody">
-
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</section>
-<!-- /.content -->
+    </section>
+    <!-- /.content -->
 </div>
 
 <script type="text/javascript">
@@ -90,8 +101,7 @@
         var lastDay = new Date(value.name, 0, parseInt(value.id) - 7);
         initPb(lastDay);
         sch();
-    }
-    ;
+    };
     // 下一周
     function next(value) {
         var lastDay = new Date(value.name, 0, parseInt(value.id) + 7);
@@ -121,7 +131,7 @@
 
         // 计算本周的7天，从最后一天往前
         for (var i = 0; i < 7; i++) {
-            var newDate = new Date(y, 0, lastDay - 7 + i + 1);
+            var newDate = new Date(y, 0 , lastDay - 7 + i + 1);
             str = (newDate.getMonth() + 1) + '-' + newDate.getDate();              // 格式化日期为m-d
             $("#date th").text(str);            // 赋值给th
             // 给当天class
@@ -132,12 +142,10 @@
             tdate += ths;
             // 循环后初始化date
             $("#date").html('<th></th>');
-        }
-        ;
+        };
 
         $("#date").html(tdate);
-    }
-    ;
+    };
     // 排班初始化
     function sch() {
         $("#pbbody").html('');
@@ -165,9 +173,9 @@
         $.ajax({
             url: '/sch/all',
             type: 'get',
-            data: {
-                beginDay: beginDay.getFullYear() + '-' + (beginDay.getMonth() + 1) + '-' + beginDay.getDate(),
-                endDay: endDay.getFullYear() + '-' + (endDay.getMonth() + 1) + '-' + endDay.getDate(),
+            data:{
+                beginDay:beginDay.getFullYear() + '-' + (beginDay.getMonth() + 1) + '-' + beginDay .getDate(),
+                endDay:endDay.getFullYear() + '-' + (endDay.getMonth() + 1) + '-' + endDay .getDate(),
             },
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
@@ -178,7 +186,7 @@
         });
     }
 
-    //    下载当月考勤
+//    下载当月考勤
     function downloadSch() {
         // 获取当前周的最后一天
         var lastDay = $(".box-body button")[0].id;

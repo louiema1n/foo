@@ -64,11 +64,23 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
-    public String resetPwd(User user) {
-        // 加密
-        User newUser = MD5PwdUtil.md52PasswordByUser(user);
+    @RequestMapping(value = "/set", method = RequestMethod.POST)
+    public String set(User user) {
+        if (user.getPassword() != null) {
+            // 加密
+            user = MD5PwdUtil.md52PasswordByUser(user);
+        }
         this.userService.updAccountByUser(user);
         return "redirect:/user";
+    }
+
+    @RequestMapping(value = "/issch", method = RequestMethod.POST)
+    @ResponseBody
+    public String isSch(User user) {
+        Integer i = this.userService.updAccountByUser(user);
+        if (i > 0) {
+            return "true";
+        }
+        return "false";
     }
 }

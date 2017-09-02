@@ -49,6 +49,8 @@ public interface UserMapper {
             if (user.getEmail() != null) {
                 sql += "email = '" + user.getEmail() + "', ";
             }
+            // 拼接issch
+            sql += "issch = " + user.getIssch() + ", ";
             sql = sql.substring(0, sql.lastIndexOf(", "));
 
             // 判断是否有uid

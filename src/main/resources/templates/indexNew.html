@@ -1,330 +1,362 @@
 <!DOCTYPE html>
 <html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <title>欢迎使用新版XXX</title>
-    <head th:replace="common/headerNew :: head"></head>
+    <title>用户管理</title>
 </head>
 
 <body class="no-skin">
-<!-- #section:basics/navbar.layout -->
-<div id="navbar" class="navbar navbar-default ace-save-state">
-    <div class="navbar-container ace-save-state" id="navbar-container">
 
-        <!-- logo及名称 -->
-        <div class="navbar-header pull-left">
-            <!-- #section:basics/navbar.layout.brand -->
-            <a href="#" class="navbar-brand">
-                <small>
-                    <i class="fa fa-leaf"></i>
-                    病理智能管理平台
-                </small>
-            </a>
-        </div>
-
-        <!-- 右上角用户信息 -->
-        <div class="navbar-buttons navbar-header pull-right" role="navigation">
-            <ul class="nav ace-nav">
-                <!-- #section:basics/navbar.user_menu -->
-                <li class="light-blue dropdown-modal">
-                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <img class="nav-user-photo" th:src="@{/aceadmin/assets/avatars/user.jpg}"/>
-                        <span class="user-info">
-									<small>欢迎你,</small>
-									Test
-								</span>
-                        <i class="ace-icon fa fa-caret-down"></i>
-                    </a>
-                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-cog"></i>
-                                系统设置
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-user"></i>
-                                用户管理
-                            </a>
-                        </li>
-
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-power-off"></i>
-                                退出
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div><!-- /.navbar-container -->
-</div>
-
-<!-- /section:basics/navbar.layout -->
 <div class="main-container ace-save-state" id="main-container">
     <script type="text/javascript">
         try{ace.settings.loadState('main-container')}catch(e){}
     </script>
 
-    <!-- #section:basics/sidebar -->
-    <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-        <script type="text/javascript">
-            try{ace.settings.loadState('sidebar')}catch(e){}
-        </script>
-
-        <ul class="nav nav-list">
-            <li class="">
-                <a href="index.html">
-                    <i class="menu-icon fa fa-tachometer"></i>
-                    <span class="menu-text"> Dashboard </span>
-                </a>
-
-                <b class="arrow"></b>
-            </li>
-
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
-                    <span class="menu-text">
-								UI &amp; Elements
-							</span>
-
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li class="">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-caret-right"></i>
-
-                            Layouts
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-
-                        <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li class="">
-                                <a href="top-menu.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Top Menu
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="two-menu-1.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Two Menus 1
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="two-menu-2.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Two Menus 2
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="mobile-menu-1.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Default Mobile Menu
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="mobile-menu-2.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Mobile Menu 2
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="mobile-menu-3.html">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Mobile Menu 3
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="">
-                        <a href="typography.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Typography
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="elements.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Elements
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="buttons.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Buttons &amp; Icons
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="content-slider.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Content Sliders
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="treeview.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Treeview
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="jquery-ui.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            jQuery UI
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="nestable-list.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Nestable Lists
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-caret-right"></i>
-
-                            Three Level Menu
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-
-                        <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li class="">
-                                <a href="#">
-                                    <i class="menu-icon fa fa-leaf green"></i>
-                                    Item #1
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="">
-                                <a href="#" class="dropdown-toggle">
-                                    <i class="menu-icon fa fa-pencil orange"></i>
-
-                                    4th level
-                                    <b class="arrow fa fa-angle-down"></b>
-                                </a>
-
-                                <b class="arrow"></b>
-
-                                <ul class="submenu">
-                                    <li class="">
-                                        <a href="#">
-                                            <i class="menu-icon fa fa-plus purple"></i>
-                                            Add Product
-                                        </a>
-
-                                        <b class="arrow"></b>
-                                    </li>
-
-                                    <li class="">
-                                        <a href="#">
-                                            <i class="menu-icon fa fa-eye pink"></i>
-                                            View Products
-                                        </a>
-
-                                        <b class="arrow"></b>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul><!-- /.nav-list -->
-
-        <!-- #section:basics/sidebar.layout.minimize -->
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
-
-        <!-- /section:basics/sidebar.layout.minimize -->
-    </div>
-
-
-    <!-- /section:basics/sidebar -->
     <div class="main-content">
         <div class="main-content-inner">
-            <!-- #section:basics/content.breadcrumbs -->
-            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
-                    </li>
-                </ul><!-- /.breadcrumb -->
+
+            <!-- 主体内容 -->
+            <div class="page-content">
+                <!-- 头部 -->
+                <h3 class="header blue lighter smaller">
+                    <i class="ace-icon fa fa-user smaller-90"></i>
+                    用户列表
+                </h3>
+
+                <!-- 中间内容 -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="tb"></table>
+                    </div>
+                </div>
             </div>
-
-        </div>
-    </div><!-- /.main-content -->
-
-    <div class="footer">
-        <div class="footer-inner">
-            <!-- #section:basics/footer -->
-            <div class="footer-content">
-						<span class="bigger-120">
-							<span class="blue bolder">版权归</span>
-							Louiemain &copy; 2017-2099 Ver. 0.0.1
-						</span>
-            </div>
-
-            <!-- /section:basics/footer -->
         </div>
     </div>
 
 </div><!-- /.main-container -->
 
+<!-- 重置密码dialog -->
+<div id="dialog-resetPwd" class="hide">
+    <div class="row">
+        <form role="form" id="resetPwd" action="/user/set" method="post">
+            <div class="box-body">
+                <!-- 隐藏id -->
+                <input type="hidden" id="id" name="uid" />
+                <div class="form-group">
+                    <label for="usr" class="col-sm-2 control-label" style="margin-top: 1%">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="usr" disabled>
+                        <!-- 隐藏只为参数提交 -->
+                        <input type="hidden" id="username" name="username" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pwd" class="col-sm-2 control-label" style="margin-top: 1%">新密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="pwd" placeholder="请输入新密码" name="password">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
+<!-- 设置用户状态dialog -->
+<div id="dialog-setState" class="hide">
+    <div class="row">
+        <form role="form" id="setState" action="/user/set" method="post">
+            <!-- 隐藏id -->
+            <input type="hidden" id="ids" name="uid" />
+            <div class="form-group">
+                <label for="usr" class="col-sm-2 control-label" style="margin-top: 1%">用户名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="usrs" disabled>
+                    <!-- 隐藏只为参数提交 -->
+                    <input type="hidden" id="usernames" name="username" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state" class="col-sm-2 control-label" style="margin-top: 1%">状态</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="state" name="state">
+                        <option value="1">激活</option>
+                        <option value="2">锁定</option>
+                        <option value="3">停用</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 示例dialog -->
+<div id="dialog" title="测试">
+    <div class="row">
+        <form role="form" id="resetPwd1" action="/user/set" method="post">
+            <div class="box-body">
+                <!-- 隐藏id -->
+                <input type="hidden" id="id1" name="uid" />
+                <div class="form-group">
+                    <label for="usr" class="col-sm-3 control-label" style="margin-top: 1%">用户名</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="usr1" disabled>
+                        <!-- 隐藏只为参数提交 -->
+                        <input type="hidden" id="username1" name="username" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pwd" class="col-sm-3 control-label" style="margin-top: 1%">新密码</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="pwd1" placeholder="请输入新密码" name="password">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 工具栏 -->
+<div id="toolbar">
+    <!--<div class="btn-group">-->
+    <button type="button" class="btn btn-primary" onclick="showDialog()">
+        <i class="fa fa-user-plus"> 新增</i>
+    </button>
+</div>
+
+<script type="text/javascript">
+    // 页面加载
+    $(function () {
+        initTable();
+        var dialog = $( "#dialog" ).dialog({
+            autoOpen: false,
+            modal: true,
+            width: 400,
+            buttons: [
+                {
+                    text: "取消",
+                    "class" : "btn btn-minier",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "确定",
+                    "class" : "btn btn-primary btn-minier",
+                    click: function() {
+                        // 保存
+                        $("#resetPwd").submit();
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        });
+        var form = dialog.find( "form" ).on( "submit", function( event ) {
+            dialog.dialog( "close" );
+            event.preventDefault();
+        });
+    });
+
+    // 表格初始化
+    function initTable() {
+        $("#tb").bootstrapTable({
+            url: '/user/all',
+            method: 'get',
+            columns: [{
+                field: 'stateId',
+                checkbox: true,
+            },{
+                field: 'number',
+                title: '编号',
+                formatter:function (value, row, index) {
+                    return index + 1;
+                },
+                align: 'center',
+            },{
+                field: 'username',
+                title: '用户名',
+                align: 'center',
+            },{
+                field: 'nickname',
+                title: '昵称',
+                align: 'center',
+            },{
+                field: 'password',
+                title: '密码',
+                align: 'center',
+            },{
+                field: 'salt',
+                title: '密码盐',
+                align: 'center',
+            },{
+                field: 'email',
+                title: '邮箱',
+                align: 'center',
+            },{
+                field: 'state',
+                title: '状态',
+                align: 'center',
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case 0:
+                            return '<span class="badge badge-grey">未激活</span>';
+                            break;
+                        case 1:
+                            return '<span class="badge badge-info">正常</span>';
+                            break;
+                        case 2:
+                            return '<span class="badge badge-warning">已锁定</span>';
+                            break;
+                        case 3:
+                            return '<span class="badge badge-danger">已停用</span>';
+                            break;
+                    }
+                },
+            },{
+                field: 'issch',
+                title: '参与排班',
+                align: 'center',
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case 0:
+                            return '<input name="switch-field-1" class="ace ace-switch ace-switch-5" type="checkbox" ' +
+                                'onclick="issch(' + row.uid + ', ' + 1 + ')"/><span class="lbl"></span>';
+                            break;
+                        case 1:
+                            return '<input name="switch-field-1" class="ace ace-switch ace-switch-5" type="checkbox" ' +
+                                'onclick="issch(' + row.uid + ', ' + 0 + ')" checked/><span class="lbl"></span>';
+                            break;
+                    }
+                },
+            },{
+                field: 'opr',
+                title: '操作',
+                align: 'center',
+                formatter: oprFunction,
+            }],
+            //classes:'table table-no-bordered',
+            showColumns: true,
+            striped: true,
+            pagination: true,
+            sidePagination:'server',
+            pageNumber:1,
+            pageSize:20,
+            pageList:[1,2,5,50,100],
+            search:true,
+            showRefresh:true,
+            showToggle:true,
+            showPaginationSwitch:true,
+            buttonsAlign:'right',
+            paginationPreText:'上一页',
+            paginationNextText:'下一页',
+            clickToSelect:true,
+            toolbar:'#toolbar',
+        });
+    }
+    // 表格操作
+    function oprFunction(value, row, index) {
+        return '<div class="hidden-sm hidden-xs action-buttons">' +
+            '<a class="green" href="#" onclick="editT(' + row.uid + ')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>' +
+            '<a class="blue" href="#" onclick="resetPwd(\''+row.uid+'\','+ '\'' + row.username + '\')"><i class="ace-icon fa fa-repeat bigger-130"></i></a>' +
+            '<a class="pink2" href="#" onclick="setState(\''+row.uid+'\','+ '\'' + row.username + '\')"><i class="ace-icon fa fa-wrench bigger-130">' +
+            '</i></a></div>';
+    }
+    // 重置密码
+    function resetPwd(uid, username) {
+        // 初始化dialog
+        $( "#dialog-resetPwd" ).removeClass('hide').dialog({
+            modal: true,
+            width : 500,
+            title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon fa fa-repeat blue'></i> 重置密码</h4></div>",
+            title_html: true,
+            buttons: [
+                {
+                    text: "取消",
+                    "class" : "btn btn-minier",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "确定",
+                    "class" : "btn btn-primary btn-minier",
+                    click: function() {
+                        // 保存
+                        $("#resetPwd").submit();
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        });
+        $("#id").val(uid);
+        $("#usr").val(username);
+        $("#username").val(username);
+    }
+
+    // 设置用户状态
+    function setState(uid, username) {
+        // 初始化dialog
+        $( "#dialog-setState" ).removeClass('hide').dialog({
+            modal: true,
+            width : 500,
+            title: "<div class='widget-header'><h4 class='smaller'><i class='ace-icon fa fa-wrench pink2'></i> 设置用户状态</h4></div>",
+            title_html: true,
+            buttons: [
+                {
+                    text: "取消",
+                    "class" : "btn btn-minier",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "确定",
+                    "class" : "btn btn-primary btn-minier",
+                    click: function() {
+                        // 保存修改密码
+                        $("#state").val($("#state option:selected").val());
+                        $("#setState").submit();
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        });
+        $("#ids").val(uid);
+        $("#usrs").val(username);
+        $("#usernames").val(username);
+    }
+
+    // jqueryui dialog title html处理
+    $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+        _title: function(title) {
+            var $title = this.options.title || '&nbsp;'
+            if( ("title_html" in this.options) && this.options.title_html == true )
+                title.html($title);
+            else title.text($title);
+        }
+    }));
+    
+    // 是否参与排班处理
+    function issch(uid, value) {
+        $.ajax({
+            url: '/user/issch',
+            data: {
+                'uid': uid,
+                'issch': value
+            },
+            type: 'post',
+            success: function (data) {
+                if (data == 'true') {
+                    initTable();
+                } else {
+                    alert("服务器繁忙，请稍后再试！");
+                }
+            }
+        });
+    }
+    
+    function showDialog() {
+        $("#dialog").dialog( "open" );
+    }
+</script>
 
 </body>
 
