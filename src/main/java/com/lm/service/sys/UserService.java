@@ -1,7 +1,7 @@
-package com.lm.service;
+package com.lm.service.sys;
 
 import com.lm.domain.shiro.User;
-import com.lm.mapper.UserMapper;
+import com.lm.mapper.sys.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

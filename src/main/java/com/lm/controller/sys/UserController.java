@@ -1,10 +1,10 @@
-package com.lm.controller;
+package com.lm.controller.sys;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lm.domain.PageResult;
 import com.lm.domain.shiro.User;
-import com.lm.service.UserService;
+import com.lm.service.sys.UserService;
 import com.lm.utils.MD5PwdUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

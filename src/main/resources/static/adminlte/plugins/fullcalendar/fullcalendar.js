@@ -2654,7 +2654,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Tells the grid about what period of time to display. Grid will subsequently compute dates for cell system.
+	// Tells the grid about what period of time to display. Grid will subsequently compute dates for cell user.
 	setRange: function(range) {
 		var view = this.view;
 
@@ -2991,7 +2991,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	},
 
 
-	// Generates an array of classNames for rendering the highlight. Used by the fill system.
+	// Generates an array of classNames for rendering the highlight. Used by the fill user.
 	highlightSegClasses: function() {
 		return [ 'fc-highlight' ];
 	},
@@ -3286,14 +3286,14 @@ Grid.mixin({
 	},
 
 
-	// Renders a background event element, given the default rendering. Called by the fill system.
+	// Renders a background event element, given the default rendering. Called by the fill user.
 	bgEventSegEl: function(seg, el) {
 		return this.view.resolveEventEl(seg.event, el); // will filter through eventRender
 	},
 
 
 	// Generates an array of classNames to be used for the default rendering of a background event.
-	// Called by the fill system.
+	// Called by the fill user.
 	bgEventSegClasses: function(seg) {
 		var event = seg.event;
 		var source = event.source || {};
@@ -3306,7 +3306,7 @@ Grid.mixin({
 
 
 	// Generates a semicolon-separated CSS string to be used for the default rendering of a background event.
-	// Called by the fill system.
+	// Called by the fill user.
 	// TODO: consolidate with getEventSkinCss?
 	bgEventSegStyles: function(seg) {
 		var view = this.view;
@@ -3331,7 +3331,7 @@ Grid.mixin({
 	},
 
 
-	// Generates an array of classNames to be used for the rendering business hours overlay. Called by the fill system.
+	// Generates an array of classNames to be used for the rendering business hours overlay. Called by the fill user.
 	businessHoursSegClasses: function(seg) {
 		return [ 'fc-nonbusiness', 'fc-bgevent' ];
 	},
@@ -5112,7 +5112,7 @@ DayGrid.mixin({
 
 		for (i = 0; i < segs.length; i++) {
 
-			// because segments in the popover are not part of a grid coordinate system, provide a hint to any
+			// because segments in the popover are not part of a grid coordinate user, provide a hint to any
 			// grids that want to do drag-n-drop about which cell it came from
 			segs[i].cell = cell;
 
@@ -8449,7 +8449,7 @@ function EventManager(options) { // assumed to be a calendar
 
 	// If `range` is a proper range with a start and end, returns the original object.
 	// If missing an end, computes a new range with an end, computing it as if it were an event.
-	// TODO: make this a part of the event -> eventRange system
+	// TODO: make this a part of the event -> eventRange user
 	function ensureVisibleEventRange(range) {
 		var allDay;
 
@@ -8721,7 +8721,7 @@ function EventManager(options) { // assumed to be a calendar
 
 
 	// Returns an array of events as to when the business hours occur in the given view.
-	// Abuse of our event system :(
+	// Abuse of our event user :(
 	function getBusinessHoursEvents() {
 		var optionVal = options.businessHours;
 		var defaultVal = {

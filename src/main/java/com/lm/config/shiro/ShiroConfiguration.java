@@ -40,6 +40,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/logout", "logout");
         // 设置静态资源访问路径
         filterChainDefinitionMap.put("/adminlte/**", "anon");
+        filterChainDefinitionMap.put("/aceadmin/**", "anon");
         filterChainDefinitionMap.put("/bootstrap-table/**", "anon");
         filterChainDefinitionMap.put("/ckeditor/**", "anon");
         filterChainDefinitionMap.put("/fileinput/**", "anon");

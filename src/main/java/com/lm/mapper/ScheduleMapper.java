@@ -20,7 +20,7 @@ public interface ScheduleMapper {
             @Result(property = "cid", column = "cid"),
             @Result(property = "uid", column = "uid"),
             @Result(property = "aClass", column = "cid", one = @One(select = "com.lm.mapper.ClassMapper.selectById")),
-            @Result(property = "user", column = "uid", one = @One(select = "com.lm.mapper.UserMapper.selectById"))
+            @Result(property = "user", column = "uid", one = @One(select = "com.lm.mapper.sys.UserMapper.selectById"))
     })
     List<Schedule> selectAll(@Param("beginDay") Date beginDay, @Param("endDay") Date endDay);
 

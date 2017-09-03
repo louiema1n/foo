@@ -5,7 +5,7 @@ import com.lm.domain.Schedule;
 import com.lm.domain.shiro.User;
 import com.lm.service.ClassService;
 import com.lm.service.ScheduleService;
-import com.lm.service.UserService;
+import com.lm.service.sys.UserService;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;

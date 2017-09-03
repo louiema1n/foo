@@ -25,7 +25,7 @@
                 <!-- 中间内容 -->
                 <div class="row">
                     <div class="col-xs-12">
-                        <table id="tb"></table>
+                        <table id="t-user"></table>
                     </div>
                 </div>
             </div>
@@ -115,7 +115,7 @@
 </div>
 
 <!-- 工具栏 -->
-<div id="toolbar">
+<div id="toolbar-user">
     <!--<div class="btn-group">-->
     <button type="button" class="btn btn-primary" onclick="showDialog()">
         <i class="fa fa-user-plus"> 新增</i>
@@ -157,7 +157,7 @@
 
     // 表格初始化
     function initTable() {
-        $("#tb").bootstrapTable({
+        $("#t-user").bootstrapTable({
             url: '/user/all',
             method: 'get',
             columns: [{
@@ -248,7 +248,7 @@
             paginationPreText:'上一页',
             paginationNextText:'下一页',
             clickToSelect:true,
-            toolbar:'#toolbar',
+            toolbar:'#toolbar-user',
         });
     }
     // 表格操作
@@ -333,7 +333,7 @@
             else title.text($title);
         }
     }));
-    
+
     // 是否参与排班处理
     function issch(uid, value) {
         $.ajax({
@@ -352,7 +352,7 @@
             }
         });
     }
-    
+
     function showDialog() {
         $("#dialog").dialog( "open" );
     }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>权限管理</title>
+</head>
+
+<body class="no-skin">
+
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+    </script>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+
+            <!-- 主体内容 -->
+            <div class="page-content">
+                <!-- 头部 -->
+                <h3 class="header blue lighter smaller">
+                    <i class="ace-icon fa fa-user smaller-90"></i>
+                    权限列表
+                </h3>
+
+                <!-- 中间内容 -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="t-per"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.main-container -->
+
+<!-- 工具栏 -->
+<div id="toolbar-per">
+    <!--<div class="btn-group">-->
+    <button type="button" class="btn btn-primary" onclick="showDialog()">
+        <i class="fa fa-user-plus"> 新增</i>
+    </button>
+</div>
+
+<script type="text/javascript">
+    // 页面加载
+    $(function () {
+        initTable();
+    });
+
+    // 表格初始化
+    function initTable() {
+        $("#t-per").bootstrapTable({
+            url: '/per/all',
+            method: 'get',
+            columns: [{
+                field: 'stateId',
+                checkbox: true,
+            },{
+                field: 'number',
+                title: '编号',
+                formatter:function (value, row, index) {
+                    return index + 1;
+                },
+                align: 'center',
+            },{
+                field: 'name',
+                title: '权限简称',
+                align: 'center',
+            },{
+                field: 'permission',
+                title: '权限',
+                align: 'center',
+            },{
+                field: 'resource_type',
+                title: '资源类型',
+                align: 'center',
+            },{
+                field: 'available',
+                title: '状态',
+                align: 'center',
+                formatter:function (value, row, index) {
+                    switch (value) {
+                        case true:
+                            return '<span class="badge badge-info">正常</span>';
+                            break;
+                        case false:
+                            return '<span class="badge badge-danger">禁用</span>';
+                            break;
+                    }
+                },
+            },{
+                field: 'opr',
+                title: '操作',
+                align: 'center',
+                formatter: oprFunction,
+            }],
+            //classes:'table table-no-bordered',
+            showColumns: true,
+            striped: true,
+            pagination: true,
+            sidePagination:'server',
+            pageNumber:1,
+            pageSize:20,
+            pageList:[1,2,5,50,100],
+            search:true,
+            showRefresh:true,
+            showToggle:true,
+            showPaginationSwitch:true,
+            buttonsAlign:'right',
+            paginationPreText:'上一页',
+            paginationNextText:'下一页',
+            clickToSelect:true,
+            toolbar:'#toolbar-per',
+        });
+    }
+    // 表格操作
+    function oprFunction(value, row, index) {
+        return '<div class="hidden-sm hidden-xs action-buttons">' +
+            '<a class="green" href="#" onclick="editT(' + row.uid + ')"><i class="ace-icon fa fa-pencil bigger-130"></i></a>' +
+            '<a class="blue" href="#" onclick="resetPwd(\''+row.uid+'\','+ '\'' + row.username + '\')"><i class="ace-icon fa fa-repeat bigger-130"></i></a>' +
+            '<a class="pink2" href="#" onclick="setState(\''+row.uid+'\','+ '\'' + row.username + '\')"><i class="ace-icon fa fa-wrench bigger-130">' +
+            '</i></a></div>';
+    }
+
+    function showDialog() {
+        $("#dialog").dialog( "open" );
+    }
+</script>
+
+</body>
+
+</html>

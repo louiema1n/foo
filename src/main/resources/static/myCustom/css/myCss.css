@@ -11,6 +11,12 @@
 .today{
     color: red;
 }
+
+.curUsername{
+    background-color: #eaeaea;
+    border: 2px solid #b6b6b6;
+}
+
 #pbtitle{
     text-align: center;
     font-size: larger;

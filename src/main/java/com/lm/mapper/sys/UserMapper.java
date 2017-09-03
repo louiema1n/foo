@@ -1,8 +1,7 @@
-package com.lm.mapper;
+package com.lm.mapper.sys;
 
 import com.lm.domain.shiro.User;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.List;

@@ -1,9 +1,7 @@
 package com.lm.config.shiro;
 
-import com.lm.domain.shiro.Permission;
-import com.lm.domain.shiro.Role;
 import com.lm.domain.shiro.User;
-import com.lm.service.UserService;
+import com.lm.service.sys.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

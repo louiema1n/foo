@@ -1,7 +1,7 @@
 package com.lm.config.shiro;
 
 import com.lm.domain.shiro.User;
-import com.lm.service.UserService;
+import com.lm.service.sys.UserService;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;

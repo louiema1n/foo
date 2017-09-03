@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <title>排班管理</title>
     <!-- myjs-->
@@ -28,6 +28,8 @@
                     <i class="ace-icon fa fa-users smaller-90"></i>
                     排班表
                 </h3>
+                <!-- 隐藏的当前用户名 -->
+                <div style="display: none" id="nickName" ><shiro:principal property='nickname'></shiro:principal></div>
             </div>
 
             <!-- 成功提示框 -->
@@ -43,7 +45,7 @@
                 </form>
                 <i class="fa fa-download pull-right"><a href="javaScript:void(0);"
                                                         onclick="downloadSch()">下载本月考勤</a></i>
-                <i class="fa fa-upload pull-right"><a href="javaScript:void(0);" onclick="showUpload()">上传考勤表&nbsp;&nbsp;</a></i>
+                <i class="fa fa-upload pull-right"><a href="javaScript:void(0);" onclick="showUpload()">上传排班表&nbsp;&nbsp;</a></i>
 
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
@@ -174,6 +176,13 @@
                     var str = "#" + data[i].user.nickname + " #" + data[i].schtime;
                     $(str).text(data[i].aClass.cname);
                 }
+                // 给当前用户的所有排班特殊显示
+                var currentUsername = '#' + $("#nickName").text();
+                $(currentUsername).addClass('curUsername');
+                // 给当天的所有班次添加特殊显示
+                var now = new Date();
+                var today = "#pbbody #" + new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+                $(today).addClass('today');
             }
         });
     }

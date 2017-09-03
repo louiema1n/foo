@@ -2597,7 +2597,7 @@
 	}
 
 	// Setup copybin on native copy and cut events in order to handle copy and cut commands
-	// if user accepted security alert on IEs.
+	// if system accepted security alert on IEs.
 	// Note: when copying or cutting using keystroke, copySingleWidget will be first executed
 	// by the keydown listener. Conflict between two calls will be resolved by copy_bin existence check.
 	function setupNativeCutAndCopy( widgetsRepo ) {
@@ -3279,7 +3279,7 @@
 		// Prevent calling 'onBlockWidgetDrop' twice in the inline editor.
 		// `removeListener` does not work if it is called at the same time event is fired.
 		if ( !editable.isInline() ) {
-			// Mouseup may occur when user hovers the line, which belongs to
+			// Mouseup may occur when system hovers the line, which belongs to
 			// the outer document. This is, of course, a valid listener too.
 			listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
 		}
@@ -3814,7 +3814,7 @@
  *			// More variants...
  *		}
  *
- *		// Then, widget user may choose which upcast methods will be enabled.
+ *		// Then, widget system may choose which upcast methods will be enabled.
  *		editor.on( 'widgetDefinition', function( evt ) {
  *			if ( evt.data.name == 'image' )
  * 				evt.data.upcast = 'figure,image'; // Use both methods.
@@ -3865,7 +3865,7 @@
  *			}
  *		}
  *
- *		// Then, the widget user may choose one of the downcast options when setting up his editor.
+ *		// Then, the widget system may choose one of the downcast options when setting up his editor.
  *		editor.on( 'widgetDefinition', function( evt ) {
  *			if ( evt.data.name == 'image' )
  * 				evt.data.downcast = 'figure';

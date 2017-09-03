@@ -214,17 +214,17 @@ public class IndexController {
 
     @RequestMapping("/user")
     public String user() {
-        return "user/user";
+        return "sys/user";
     }
 
     @RequestMapping("/role")
     public String role() {
-        return "role/role";
+        return "sys/role";
     }
 
     @RequestMapping("/permission")
     public String permission() {
-        return "permission/permission";
+        return "sys/permission";
     }
 
     @RequestMapping("/tst")
